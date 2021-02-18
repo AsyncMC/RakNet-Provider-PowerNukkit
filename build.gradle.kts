@@ -11,7 +11,7 @@ java {
     targetCompatibility = JavaVersion.VERSION_13
 }
 
-val moduleName = "com.github.asyncmc.template.internal"
+val moduleName = "com.github.asyncmc.raknet.powernukkit"
 val isSnapshot = version.toString().endsWith("SNAPSHOT")
 
 repositories {
@@ -57,6 +57,9 @@ plugins.withType<JavaPlugin>().configureEach {
 dependencies {
     api(kotlin("stdlib-jdk8", embeddedKotlinVersion))
     api(kotlin("reflect", embeddedKotlinVersion))
+    implementation("com.github.asyncmc:raknet-interface:0.1.0-SNAPSHOT")
+    implementation("org.powernukkit.bedrock.network:raknet:1.6.25-PN.2")
+    implementation("com.google.guava:guava:30.1-jre")
 
     testImplementation(kotlin("test-junit5", embeddedKotlinVersion))
 
@@ -140,13 +143,13 @@ publishing {
             from(components["java"])
             artifact(tasks["sourceJar"])
             pom {
-                name.set("Internal Template")
-                description.set("This is just a template project")
-                url.set("https://github.com/AsyncMC/Internal-Template")
+                name.set("PowerNukkit RakNet Protocol Facade")
+                description.set("This is an implementation of the RakNet Facade which allows API consumers to use the PowerNukkit RakNet implementation.")
+                url.set("https://github.com/AsyncMC/RakNet-Provider-PowerNukkit")
                 licenses {
                     license {
-                        name.set("Public domain")
-                        url.set("https://github.com/AsyncMC/Internal-Template/LICENSE.txt")
+                        name.set("GNU Affero General Public License, Version 3")
+                        url.set("https://www.gnu.org/licenses/agpl-3.0.html")
                     }
                 }
                 developers {
@@ -157,9 +160,9 @@ publishing {
                     }
                 }
                 scm {
-                    url.set("https://github.com/AsyncMC/Internal-Template")
-                    connection.set("scm:git:https://github.com/AsyncMC/Internal-Template.git")
-                    developerConnection.set("https://github.com/AsyncMC/Internal-Template.git")
+                    url.set("https://github.com/AsyncMC/RakNet-Provider-PowerNukkit")
+                    connection.set("scm:git:https://github.com/AsyncMC/RakNet-Provider-PowerNukkit.git")
+                    developerConnection.set("https://github.com/AsyncMC/RakNet-Provider-PowerNukkit.git")
                 }
             }
         }
