@@ -1,17 +1,17 @@
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
-    kotlin("jvm") version "1.3.72"
+    kotlin("jvm") version "1.4.21"
     jacoco
     `maven-publish`
 }
 
 java {
-    sourceCompatibility = JavaVersion.VERSION_13
-    targetCompatibility = JavaVersion.VERSION_13
+    sourceCompatibility = JavaVersion.VERSION_15
+    targetCompatibility = JavaVersion.VERSION_15
 }
 
-val moduleName = "com.github.asyncmc.template.internal"
+val moduleName = "com.github.asyncmc.protocol.provider.raknet.powernukkit"
 val isSnapshot = version.toString().endsWith("SNAPSHOT")
 
 repositories {
@@ -27,7 +27,7 @@ tasks.withType<JavaCompile>().configureEach {
 }
 
 tasks.withType<KotlinCompile>().configureEach {
-    kotlinOptions.jvmTarget = "13"
+    kotlinOptions.jvmTarget = "15"
     kotlinOptions.freeCompilerArgs += "-Xopt-in=kotlin.RequiresOptIn"
 }
 
@@ -54,9 +54,22 @@ plugins.withType<JavaPlugin>().configureEach {
     }
 }
 
+val log4j2Version = findProperty("log4j2.version")
+val slf4jVersion = findProperty("slf4j.version")
+
 dependencies {
     api(kotlin("stdlib-jdk8", embeddedKotlinVersion))
     api(kotlin("reflect", embeddedKotlinVersion))
+    api("com.github.asyncmc:raknet-api:0.1.0-SNAPSHOT")
+    implementation("org.powernukkit.bedrock.network:raknet:1.6.25-PN.2")
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.4.2")
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-jdk8:1.4.2")
+    
+    implementation("com.michael-bull.kotlin-inline-logger:kotlin-inline-logger:1.0.2")
+    testImplementation("org.slf4j:slf4j-api:$slf4jVersion")
+    testImplementation("org.apache.logging.log4j:log4j-slf4j-impl:$log4j2Version")
+    testImplementation("org.apache.logging.log4j:log4j-api:$log4j2Version")
+    testImplementation("org.apache.logging.log4j:log4j-core:$log4j2Version")
 
     testImplementation(kotlin("test-junit5", embeddedKotlinVersion))
 
